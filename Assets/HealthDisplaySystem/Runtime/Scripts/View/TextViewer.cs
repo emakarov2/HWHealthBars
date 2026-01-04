@@ -1,39 +1,20 @@
 using UnityEngine;
 using TMPro;
 
-public class TextViewer : MonoBehaviour
+public class TextViewer : HealthViewer
 {
-    [SerializeField] private Health _health;
     [SerializeField] private TMP_Text _text;
-
-    private void OnEnable()
-    {
-        if (_health != null)
-        {
-            _health.DamageTaken += UpdateText;
-            _health.Healed += UpdateText;
-        }
-    }
-
+   
     private void Start()
     {
-        UpdateText();
-    }
+        OnHealthChanged();
+    }    
 
-    private void OnDisable()
-    {
-        if (_health != null)
-        {
-            _health.DamageTaken -= UpdateText;
-            _health.Healed -= UpdateText;
-        }
-    }
-
-    private void UpdateText()
+    protected override void OnHealthChanged()
     {
         if (_text != null)
         {
-            _text.text = $"{_health.CurrentHealth}/{_health.Max}";
+            _text.text = $"{Health.CurrentHealth}/{Health.Max}";
         }
     }
 }
